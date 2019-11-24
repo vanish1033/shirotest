@@ -19,10 +19,10 @@ public class JdbcRealmQuickStartTest {
 
 
     /**
-     * test认证
+     * 方式一: 用 ini 配置文件加 jdbc 认证
      */
     @Test
-    public void testAuthentication() {
+    public void testAuthentication1() {
         Factory<SecurityManager> managerFactory = new IniSecurityManagerFactory("classpath:jdbcRealm.ini");
         SecurityManager securityManager = managerFactory.getInstance();
         SecurityUtils.setSecurityManager(securityManager);
