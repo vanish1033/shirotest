@@ -35,6 +35,12 @@ public class JdbcRealmQuickStartTest {
     }
 
 
+
+
+
+
+
+
     /**
      * 方式二: jdbc 认证
      */
