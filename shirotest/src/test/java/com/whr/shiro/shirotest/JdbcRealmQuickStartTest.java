@@ -34,6 +34,13 @@ public class JdbcRealmQuickStartTest {
         System.out.println("subject.isPermitted(\"video:buy2\") = " + subject.isPermitted("video:buy2"));
     }
 
+
+
+
+
+
+
+    
     /**
      * 方式二: jdbc 认证
      */
