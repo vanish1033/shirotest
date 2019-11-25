@@ -55,8 +55,6 @@ public class JdbcRealmQuickStartTest {
          */
         JdbcRealm jdbcRealm = new JdbcRealm();
         jdbcRealm.setDataSource(ds);
-
-
         jdbcRealm.setPermissionsLookupEnabled(true);
         securityManager.setRealm(jdbcRealm);
 
@@ -70,6 +68,7 @@ public class JdbcRealmQuickStartTest {
         System.out.println("subject.isPermitted(\"video:buy\") = " + subject.isPermitted("video:buy"));
         System.out.println("subject.isPermitted(\"video:buy1\") = " + subject.isPermitted("video:buy1"));
         System.out.println("subject.isPermitted(\"video:buy2\") = " + subject.isPermitted("video:buy2"));
+        System.out.println("subject.isPermitted(\"video:delete\") = " + subject.isPermitted("video:delete"));
     }
 
 }
