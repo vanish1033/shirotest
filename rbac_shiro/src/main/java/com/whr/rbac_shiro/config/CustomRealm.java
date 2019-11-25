@@ -47,8 +47,8 @@ public class CustomRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo(user.getRoles().stream().map(x -> x.getName()).collect(Collectors.toSet()));
         HashSet<String> permissions = Sets.newHashSet();
         user.getRoles().stream().forEach(role -> {
-            String[] urls = (String[]) role.getPermissions().stream().map(permission -> permission.getName()).toArray();
-            Collections.addAll(permissions, urls);
+            String[] permissionNames = (String[]) role.getPermissions().stream().map(permission -> permission.getName()).toArray();
+            Collections.addAll(permissions, permissionNames);
         });
         simpleAuthorizationInfo.setStringPermissions(permissions);
         simpleAuthorizationInfo.setStringPermissions(permissions);
