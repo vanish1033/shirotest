@@ -1,6 +1,7 @@
 package com.whr.rbac_shiro.config;
 
 import com.google.common.collect.Maps;
+import com.sun.xml.internal.bind.v2.TODO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.realm.Realm;
@@ -66,8 +67,13 @@ public class ShiroConfig {
     public SecurityManager securityManager() {
         log.info("ShiroConfig.securityManager()");
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+
+        // 在 securityManager 中配置 SessionManager，完全前后端分离的项目采用配置，非前后端分离的项目不用配置
+        securityManager.setSessionManager(sessionManager());
+
+        // 在 securityManager 中配置 Realm， 这一步推荐放在最后
         securityManager.setRealm(realm());
-        // TODO securityManager.setSessionManager();
+
         return securityManager;
     }
 
@@ -100,13 +106,15 @@ public class ShiroConfig {
     }
 
     /**
-     * 配置 SessionManager
+     * 自定义 SessionManager
      *
      * @return
      */
     @Bean
     public SessionManager sessionManager() {
         CustomSessionManager customSessionManager = new CustomSessionManager();
+        // 设置 session 过期时间，默认30min，单位毫秒
+        customSessionManager.setGlobalSessionTimeout(900_000L); // 900_000L 为 15min
         return customSessionManager;
     }
 
