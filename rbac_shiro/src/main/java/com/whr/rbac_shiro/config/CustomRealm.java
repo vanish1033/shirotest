@@ -1,6 +1,5 @@
 package com.whr.rbac_shiro.config;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Sets;
 import com.whr.rbac_shiro.domain.User;
 import com.whr.rbac_shiro.service.UserService;
@@ -19,7 +18,6 @@ import org.springframework.util.ObjectUtils;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 
 /**
@@ -73,6 +71,7 @@ public class CustomRealm extends AuthorizingRealm {
             log.info("用户输入账号有误！");
             return null;
         }
+        // 返回正确的 userId 和 password
         return new SimpleAuthenticationInfo(userId, user.getPassword(), this.getName());
     }
 }
