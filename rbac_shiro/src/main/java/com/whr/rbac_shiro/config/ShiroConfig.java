@@ -1,15 +1,15 @@
 package com.whr.rbac_shiro.config;
 
 import com.google.common.collect.Maps;
-import com.sun.xml.internal.bind.v2.TODO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.springframework.context.annotation.*;
-import org.apache.shiro.mgt.SecurityManager;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.LinkedHashMap;
 
@@ -85,7 +85,7 @@ public class ShiroConfig {
     @Bean
     public Realm realm() {
         CustomRealm customRealm = new CustomRealm();
-        customRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+//        customRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return customRealm;
     }
 

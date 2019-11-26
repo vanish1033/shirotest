@@ -68,8 +68,8 @@ public class CustomRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         log.info("认证 doGetAuthenticationInfo");
-        // 从 token 中获取 username 和 password
-        Integer userId = (Integer) token.getPrincipal();
+        // 从 token 中获取 userId 和 password
+        Integer userId = Integer.valueOf(token.getPrincipal() + "");
         User user = userService.findAllUserInfoByUid(userId);
         if (ObjectUtils.isEmpty(user)) {
             log.info("用户输入账号有误！");
