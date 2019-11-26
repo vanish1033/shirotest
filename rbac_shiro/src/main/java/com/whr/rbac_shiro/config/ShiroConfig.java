@@ -34,7 +34,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
         // 需要登录的接口，如果访问一个需要登录的接口，但没有登录，就调用这个接口登录
-        shiroFilterFactoryBean.setLoginUrl("/pub/login");
+        shiroFilterFactoryBean.setLoginUrl("/pub/need_login");
         // 登录成功后的回调接口
         shiroFilterFactoryBean.setSuccessUrl("/pub/common");
         // 访问没有权限访问的接口，就会转跳到这个接口

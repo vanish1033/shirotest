@@ -30,7 +30,7 @@ public class CustomSessionManager extends DefaultWebSessionManager {
 
         // 根据 token 取到 sessionId
         String sessionId = httpServletRequest.getHeader(AUTHORIZATION);
-        if (StringUtils.isEmpty(sessionId)) {
+        if (!StringUtils.isEmpty(sessionId)) {
             log.info("取到了sessionId");
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE,
                     ShiroHttpServletRequest.COOKIE_SESSION_ID_SOURCE);

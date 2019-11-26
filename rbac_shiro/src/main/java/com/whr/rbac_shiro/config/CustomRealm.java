@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
  * @author:whr 2019/11/25
  */
 @Slf4j
-@Component
 public class CustomRealm extends AuthorizingRealm {
 
     @Autowired
