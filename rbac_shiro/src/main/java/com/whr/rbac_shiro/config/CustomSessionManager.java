@@ -23,6 +23,15 @@ public class CustomSessionManager extends DefaultWebSessionManager {
         super();
     }
 
+    /**
+     * 登录后会返回一个cookie就是sessionId （见login方法）
+     * 那么鉴权的时候可以不加 token，按照 else 里父类中方法通过 cookie 里的 sessionId 取 session
+     * 也可以在此方法内用 getHeader() 取 token， token 里面也是 sessionId
+     *
+     * @param request
+     * @param response
+     * @return
+     */
     @Override
     protected Serializable getSessionId(ServletRequest request, ServletResponse response) {
         log.info("进入 getSessionId()");
@@ -40,6 +49,7 @@ public class CustomSessionManager extends DefaultWebSessionManager {
             //onUnknownSession method below will be invoked and we'll remove the attribute at that time.
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_IS_VALID, Boolean.TRUE);
         } else {
+
             log.info("没取到sessionId，默认调用父类方法");
             return super.getSessionId(request, response);
         }
