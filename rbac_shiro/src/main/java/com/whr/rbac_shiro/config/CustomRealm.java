@@ -1,6 +1,8 @@
 package com.whr.rbac_shiro.config;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.whr.rbac_shiro.domain.Permission;
 import com.whr.rbac_shiro.domain.User;
 import com.whr.rbac_shiro.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -49,8 +50,9 @@ public class CustomRealm extends AuthorizingRealm {
 
         HashSet<String> permissions = Sets.newHashSet();
         user.getRoles().stream().forEach(role -> {
-            String[] permissionNames = (String[]) role.getPermissions().stream().map(permission -> permission.getName()).toArray();
-            Collections.addAll(permissions, permissionNames);
+            Set<Permission> permissions1 = role.getPermissions();
+            String[] strings = permissions1.stream().map(permission -> permission.getName() + "").toArray(String[]::new);
+            Collections.addAll(permissions, strings);
         });
 
         simpleAuthorizationInfo.setStringPermissions(permissions);

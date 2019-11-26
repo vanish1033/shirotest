@@ -13,7 +13,7 @@
     <resultMap id="OneResultMap" type="com.whr.rbac_shiro.domain.User">
         <!--@mbg.generated-->
         <!--@Table user-->
-        <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="uid" jdbcType="INTEGER" property="id"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
@@ -23,7 +23,7 @@
             <result column="name" jdbcType="VARCHAR" property="name"/>
             <collection property="permissions" ofType="com.whr.rbac_shiro.domain.Permission">
                 <id column="permission_id" jdbcType="INTEGER" property="id"/>
-                <result column="name" jdbcType="VARCHAR" property="name"/>
+                <result column="pname" jdbcType="VARCHAR" property="name"/>
                 <result column="url" jdbcType="VARCHAR" property="url"/>
             </collection>
         </collection>
@@ -116,7 +116,16 @@
 
     <select id="getUserByUid" resultMap="OneResultMap">
         SELECT
-        *
+        u.id AS uid,
+        username,
+        password,
+        create_time,
+        salt,
+        ur.role_id,
+        r.name,
+        permission_id,
+        p.name AS pname,
+        url
         FROM
         USER u
         LEFT JOIN user_role ur ON u.id = ur.user_id

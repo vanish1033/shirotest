@@ -114,7 +114,7 @@ public class ShiroConfig {
     public SessionManager sessionManager() {
         CustomSessionManager customSessionManager = new CustomSessionManager();
         // 设置 session 过期时间，默认30min，单位毫秒
-        customSessionManager.setGlobalSessionTimeout(900_000L); // 900_000L 为 15min
+        customSessionManager.setGlobalSessionTimeout(100 * 1000L);
         return customSessionManager;
     }
 
