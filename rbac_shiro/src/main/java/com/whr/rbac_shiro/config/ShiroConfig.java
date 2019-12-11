@@ -81,7 +81,8 @@ public class ShiroConfig {
 
         // 在 securityManager 中配置 SessionManager，完全前后端分离的项目采用配置，非前后端分离的项目不用配置
         securityManager.setSessionManager(sessionManager());
-
+        // 在 securityManager 中配置 CacheManager
+        securityManager.setCacheManager(redisCacheManager());
         // 在 securityManager 中配置 Realm， 这一步推荐放在最后
         securityManager.setRealm(realm());
 
@@ -126,7 +127,6 @@ public class ShiroConfig {
         CustomSessionManager customSessionManager = new CustomSessionManager();
         // 设置 session 过期时间，默认30min，单位毫秒
         customSessionManager.setGlobalSessionTimeout(100 * 1000L);
-        customSessionManager.setCacheManager(redisCacheManager());
         customSessionManager.setSessionDAO(redisSessionDAO());
         return customSessionManager;
     }
