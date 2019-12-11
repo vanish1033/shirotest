@@ -2,10 +2,11 @@ package com.whr.rbac_shiro.domain;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Set;
 
 @Data
-public class Role {
+public class Role implements Serializable {
     /**
      * id
      */

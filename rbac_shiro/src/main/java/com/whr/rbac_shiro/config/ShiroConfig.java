@@ -8,10 +8,15 @@ import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.crazycake.shiro.RedisCacheManager;
+import org.crazycake.shiro.RedisManager;
+import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author:whr 2019/11/25
@@ -41,6 +46,12 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setUnauthorizedUrl("/pub/UnauthorizedUrl");
         // 创建拦截路径集合，必须用 LinkedHashMap， 因为 LinkedHashMap 有序，过滤链从上到下顺序执行
         LinkedHashMap<String, String> filterChainDefinitionMap = Maps.newLinkedHashMap();
+        /**
+         * 自定义角色过滤器
+         */
+        Map<String, Filter> filtersMap = Maps.newLinkedHashMap();
+        filtersMap.put("roleOrFilter", new CustomRolesOrAuthorizationFilter());
+        shiroFilterFactoryBean.setFilters(filtersMap);
         // 退出过滤器
         filterChainDefinitionMap.put("/logout", "logout");
         // 不需要登录就可以访问的路径
@@ -48,7 +59,7 @@ public class ShiroConfig {
         // 登录用户才可以访问
         filterChainDefinitionMap.put("/authc/**", "authc");
         // admin角色过滤器
-        filterChainDefinitionMap.put("/admin/**", "roles[admin]");
+        filterChainDefinitionMap.put("/admin/**", "roleOrFilter[admin,root]");
         // 权限授权拦截器，验证用户是否拥有权限
         filterChainDefinitionMap.put("/video/update", "perms[video_update]");
         // 其他路径过滤器
@@ -115,7 +126,46 @@ public class ShiroConfig {
         CustomSessionManager customSessionManager = new CustomSessionManager();
         // 设置 session 过期时间，默认30min，单位毫秒
         customSessionManager.setGlobalSessionTimeout(100 * 1000L);
+        customSessionManager.setCacheManager(redisCacheManager());
+        customSessionManager.setSessionDAO(redisSessionDAO());
         return customSessionManager;
+    }
+
+    /**
+     * 配置 RedisManager
+     *
+     * @return
+     */
+    @Bean
+    public RedisManager redisManager() {
+        RedisManager redisManager = new RedisManager();
+        redisManager.setPort(6379);
+        redisManager.setHost("192.168.64.135");
+        return redisManager;
+    }
+
+    /**
+     * 配置 cache 的具体实现类
+     *
+     * @return
+     */
+    @Bean
+    public RedisCacheManager redisCacheManager() {
+        RedisCacheManager redisCacheManager = new RedisCacheManager();
+        redisCacheManager.setRedisManager(redisManager());
+        redisCacheManager.setExpire(20);
+        return redisCacheManager;
+    }
+
+    /**
+     * 自定义 session 持久化
+     *
+     * @return
+     */
+    public RedisSessionDAO redisSessionDAO() {
+        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
+        redisSessionDAO.setRedisManager(redisManager());
+        return redisSessionDAO;
     }
 
 }

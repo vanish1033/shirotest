@@ -2,11 +2,12 @@ package com.whr.rbac_shiro.domain;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
 @Data
-public class User {
+public class User implements Serializable {
     private Integer id;
     /**
      * 角色集合

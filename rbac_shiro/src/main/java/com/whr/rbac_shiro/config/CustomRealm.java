@@ -39,8 +39,8 @@ public class CustomRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         log.info("授权 doGetAuthorizationInfo");
-        Integer userId = (Integer) principals.getPrimaryPrincipal();
-        User user = userService.findAllUserInfoByUid(userId);
+        User newUser = (User) principals.getPrimaryPrincipal();
+        User user = userService.findAllUserInfoByUid(newUser.getId());
 
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo(
                 user.getRoles().
@@ -78,6 +78,6 @@ public class CustomRealm extends AuthorizingRealm {
             return null;
         }
         // 返回正确的 userId 和 password
-        return new SimpleAuthenticationInfo(userId, user.getPassword(), this.getName());
+        return new SimpleAuthenticationInfo(user, user.getPassword(), this.getName());
     }
 }
